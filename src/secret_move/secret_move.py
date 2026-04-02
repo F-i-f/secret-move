@@ -149,7 +149,7 @@ class SecretMove():
 
         return True
 
-def main(argv):
+def main(argv = sys.argv):
     progname = os.path.basename(argv[0])
 
     parser = argparse.ArgumentParser(prog=progname, description="List, copy and move secrets across libsecret keyrings.")
