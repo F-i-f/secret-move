@@ -1,3 +1,5 @@
+# -*- indent-tabs-mode: nil -*-
+
 name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
 
 on: push
@@ -74,3 +76,4 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
+        verbose: true
