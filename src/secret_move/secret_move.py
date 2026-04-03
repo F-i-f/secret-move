@@ -49,13 +49,22 @@ class SecretMove():
 
         return True
 
-    def list_labels(self, keyring_name):
+    def print_secret_attributes(self, item, opt_verbose):
+        if opt_verbose:
+            attrs = item.get_attributes()
+            for k, v in attrs.items():
+                print(f"  {k}: {v}")
+            if opt_verbose >= 2:
+                print(f"  Secret: {item.get_secret()}")
+
+    def list_labels(self, keyring_name, opt_verbose):
         """List all key labels of a keyring."""
         coll = self.get_keyring(keyring_name)
         if coll is None:
             return False
         for l in coll.get_all_items():
             print(l.get_label())
+            self.print_secret_attributes(l, opt_verbose)
         return True
 
     def process_keyring_items(self, search_string, source_name, dest_name,
@@ -117,13 +126,7 @@ class SecretMove():
 
             if not opt_quiet:
                 print(f"{self.progname}: {prefix}: \"{label}\"")
-
-            if opt_verbose and not opt_quiet:
-                attrs = item.get_attributes()
-                for k, v in attrs.items():
-                    print(f"  {k}: {v}")
-                if opt_verbose >= 2:
-                    print(f"  Secret: {item.get_secret()}")
+                self.print_secret_attributes(item, opt_verbose)
 
             if not opt_dry_run:
                 if dest_col.is_locked():
@@ -157,7 +160,8 @@ def main(argv = sys.argv):
 
     # Parser for shared options for all commands accessing a source keyring (list, move, copy)
     source_parser = argparse.ArgumentParser(add_help=False)
-    source_parser.add_argument("-s", "--source", default="Login", help="source keyring (default: login)")
+    source_parser.add_argument("-s", "--source",  default="Login", help="source keyring (default: login)")
+    source_parser.add_argument("-v", "--verbose", action="count",  help="show item attributes, repeat a second time to show secrets")
 
     # Parser for shared options between move and copy
     copy_move_parser = argparse.ArgumentParser(parents=[source_parser], add_help=False)
@@ -166,7 +170,6 @@ def main(argv = sys.argv):
     copy_move_parser.add_argument("-n", "--dry-run", "--no-do", action="store_true", help="dry-run mode")
     copy_move_parser.add_argument("-q", "--quiet",              action="store_true", help="suppress all output except errors")
     copy_move_parser.add_argument("-r", "--regex",              action="store_true", help="enable anchored regex matching")
-    copy_move_parser.add_argument("-v", "--verbose",            action="count",      help="show item attributes")
     copy_move_parser.add_argument("dest",                                            help="destination keyring")
     copy_move_parser.add_argument("search",                                          help="label to search for")
 
@@ -192,7 +195,7 @@ def main(argv = sys.argv):
     if args.command == "keyrings":
         ret = secret_move.list_all_keyrings()
     elif args.command == "list":
-        ret = secret_move.list_labels(args.source)
+        ret = secret_move.list_labels(args.source, args.verbose)
     elif args.command in ("copy", "move"):
         kw = {
             'opt_move': args.command == "move"
