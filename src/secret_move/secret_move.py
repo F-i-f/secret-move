@@ -152,10 +152,25 @@ class SecretMove():
 
         return True
 
+class VersionAction(argparse.Action):
+    def __call__(self, *args):
+        print("""secret-move 0.1
+
+Copyright (C) 2026 Philippe Troin (F-i-f on GitHub).
+secret-move comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.""")
+        sys.exit(0)
+
+
 def main(argv = sys.argv):
     progname = os.path.basename(argv[0])
 
     parser = argparse.ArgumentParser(prog=progname, description="List, copy and move secrets across libsecret keyrings.")
+    parser.add_argument("-V", "--version", action=VersionAction, nargs=0, help="show version and copyright notice")
+
     subparsers = parser.add_subparsers(dest="command", required=True, help="command to execute")
 
     # Parser for shared options for all commands accessing a source keyring (list, move, copy)
@@ -170,12 +185,12 @@ def main(argv = sys.argv):
     copy_move_parser.add_argument("-n", "--dry-run", "--no-do", action="store_true", help="dry-run mode")
     copy_move_parser.add_argument("-q", "--quiet",              action="store_true", help="suppress all output except errors")
     copy_move_parser.add_argument("-r", "--regex",              action="store_true", help="enable anchored regex matching")
-    copy_move_parser.add_argument("dest",                                            help="destination keyring")
-    copy_move_parser.add_argument("search",                                          help="label to search for")
+    copy_move_parser.add_argument("dest",   metavar="DEST",                          help="destination keyring")
+    copy_move_parser.add_argument("search", metavar="SEARCH",                        help="label to search for")
 
     # Command: copy
     subparsers.add_parser("copy", parents=[copy_move_parser], help="copy items between keyrings",
-                          description="Copy items between keyrings.")
+                          description="Copy items matching SEARCH from SOURCE to DEST keyrings.")
 
     # Command: keyrings
     subparsers.add_parser("keyrings", help="list all available keyrings",
@@ -183,13 +198,14 @@ def main(argv = sys.argv):
 
     # Command: list
     subparsers.add_parser("list", parents=[source_parser], help="list all keys in a keyring",
-                          description="List all keys in a keyring.")
+                          description="List all keys in SOURCE keyring.")
 
     # Command: move
     subparsers.add_parser("move", parents=[copy_move_parser], help="move items between keyrings",
-                          description="Move items between keyrings.")
+                          description="Move items matching SEARCH from SOURCE to DEST keyrings.")
 
     args = parser.parse_args(argv[1:])
+
     secret_move = SecretMove(progname)
 
     if args.command == "keyrings":
