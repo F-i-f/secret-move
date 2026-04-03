@@ -23,6 +23,11 @@ import sys
 
 import secretstorage
 
+if __name__ == '__main__':
+    import _version
+else:
+    from . import _version
+
 class SecretMove():
     def __init__(self, progname):
         self.progname        = progname
@@ -154,7 +159,7 @@ class SecretMove():
 
 class VersionAction(argparse.Action):
     def __call__(self, *args):
-        print("""secret-move 0.1
+        print(f"""secret-move version {_version.version}
 
 Copyright (C) 2026 Philippe Troin (F-i-f on GitHub).
 secret-move comes with ABSOLUTELY NO WARRANTY.

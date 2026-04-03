@@ -47,5 +47,8 @@ Homepage = "https://github.com/F-i-f/secret-move"
 Issues = "https://github.com/F-i-f/secret-move/issues"
 
 [build-system]
-requires = ["setuptools >= 77.0.3", "setuptools-scm[simple]>=9.2"]
+requires = ["setuptools >= 77.0.3", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_file = "src/secret_move/_version.py"
