@@ -16,7 +16,9 @@
 
 [project]
 name = "secret-move"
-version = "0.1"
+dynamic = [
+    "version",
+]
 authors = [
   { name="Philippe Troin", email="phil+github-commits@fifi.org" },
 ]
@@ -45,5 +47,5 @@ Homepage = "https://github.com/F-i-f/secret-move"
 Issues = "https://github.com/F-i-f/secret-move/issues"
 
 [build-system]
-requires = ["setuptools >= 77.0.3"]
+requires = ["setuptools >= 77.0.3", "setuptools-scm[simple]>=9.2"]
 build-backend = "setuptools.build_meta"
