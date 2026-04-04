@@ -22,6 +22,16 @@ python -m build
 pip install dist/secret_move-*.whl
 ```
 
+## From a self-built RPM package
+
+These instructions will download the source package (sdist) from [PyPI](https://pypi.org/project/secret-move/#files).
+
+``` shell
+spectool -dR secret-move.spec
+rpmbuild -ba secret-move.spec
+rpm -Uvh .../RPMS/noarch/python3-secret-move-*.noarch.rpm
+```
+
 # Help screens
 
 <pre><font color="#C01C28"><b>user@localhost:~/%</b></font> <font color="#008700"><b>secret-move</b></font> <font color="#005FFF">--help</font>
