@@ -27,7 +27,7 @@ pip install dist/secret_move-*.whl
 These instructions will download the source package (sdist) from [PyPI](https://pypi.org/project/secret-move/#files).
 
 ``` shell
-spectool -dR secret-move.spec
+spectool -gR secret-move.spec
 rpmbuild -ba secret-move.spec
 rpm -Uvh .../RPMS/noarch/python3-secret-move-*.noarch.rpm
 ```
