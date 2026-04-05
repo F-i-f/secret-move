@@ -139,6 +139,13 @@ secret-move keyrings
 | Copy all secrets containing `rdp` (case insensitive match) from the default keyring (_Login_) to _OtherKeyring_ | `secret-move move OtherKeyring -i -r '.*rdp.*'` |
 
 # Changelog
+## Version 0.5.1
+### April 5, 2025
+
+- Updated documentation.
+- Provide spec file (bump version).
+
 ## Version 0.5
+### April 2, 2025
 
 - Created.
