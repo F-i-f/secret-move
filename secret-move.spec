@@ -4,7 +4,7 @@
 Tool to list, copy and move libsecret secrets between keyrings.}
 
 Name:		python-%{_pypi_project_name}
-Version:	0.5
+Version:	0.5.1
 Release:	1%{?dist}
 Summary:	List, copy and move libsecret secrets between keyrings
 
@@ -40,5 +40,8 @@ Summary:	%{summary}
 %{_bindir}/secret-move
 
 %changelog
+* Sun Apr 05 2026 Philippe Troin  <phil@fifi.org> - 0.5.1-1
+- New upstream release.
+
 * Fri Apr 03 2026 Philippe Troin <phil@fifi.org>
 - Created.
